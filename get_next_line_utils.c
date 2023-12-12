@@ -6,10 +6,9 @@
 /*   By: yanaranj <yanaranj@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 13:01:28 by yanaranj          #+#    #+#             */
-/*   Updated: 2023/12/11 12:25:05 by yanaranj         ###   ########.fr       */
+/*   Updated: 2023/12/12 17:25:20 by yanaranj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-//FUNCIONES DEL LIBFT QUE USAREMOS PARA LLAMAR EL GNL.C
 
 #include <get_next_line.h>
 
@@ -51,4 +50,16 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	join[i] = '\0';
 	return (join);
+}
+
+/*			Libera la memoria de las cadenas
+ * Verifica si la cadena hay mem asignada, y luego la libera
+*/
+char	*ft_free(char *s1, char *s2)
+{
+	if (s1)
+		free(s1);
+	if (s2)
+		free(s2);
+	return (NULL);
 }
