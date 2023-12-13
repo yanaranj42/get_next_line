@@ -6,7 +6,7 @@
 /*   By: yanaranj <yanaranj@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 13:01:11 by yanaranj          #+#    #+#             */
-/*   Updated: 2023/12/12 17:25:10 by yanaranj         ###   ########.fr       */
+/*   Updated: 2023/12/13 12:32:18 by yanaranj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static char	*ft_next (char *buffer)
 	return (line);
 
 }
+
 /* 			Leera la linea que debe retornar
  * *line: cadena a devolver
  * i: iterador de la cadena
@@ -153,19 +154,29 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
+/* fd: archivo que leera
+ * l: lineas del archivo que queremos devolver
+ * *line: valor a imprimir
+ * primero abrimos el fd, si no existe, lo crea
+ * while(): bucle que repite el gnl hasta llegar a 10
+ * 			escribe en line llamando a la funcion gnl
+ * 			imprime y luego libera la memoria de linea
+ * 			incrementa 'l' hasta salir del bucle
+ * cierra el fd y retorna 0.
+*/
 int main()
 {
 	int		fd;
-	int		m = 0;
+	int		l = 0;
 	char	*line;
 
-	fd = open("test.txt", O_RDONLY);
-	while (m < 15)
+	fd = open("test.txt", O_RDONLY | O_CREAT);
+	while (l < 10)
 	{
 		line = get_next_line(fd);
-		printf("\n%i: %s", m, line);
+		printf("\n%i: %s", l, line);
 		free(line);
-		m++;
+		l++;
 	}
 	close (fd);
 	return (0);
