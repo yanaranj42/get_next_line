@@ -6,7 +6,7 @@
 /*   By: yanaranj <yanaranj@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 12:52:58 by yanaranj          #+#    #+#             */
-/*   Updated: 2023/12/13 15:06:00 by yanaranj         ###   ########.fr       */
+/*   Updated: 2023/12/13 18:18:14 by yanaranj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ char	*ft_next(char *buffer)
 	int		j;
 
 	i = 0;
+	if (!buffer[i])
+	{
+		free(buffer);
+	}
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
 	printf("%i\n", i);
@@ -27,9 +31,7 @@ char	*ft_next(char *buffer)
 		free(buffer);
 		return (NULL);
 	}
-	line = malloc(sizeof(char) * BUFFER_SIZE + 1);
-	if (!line)
-		return (NULL);
+	line = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	i++;
 	j = 0;
 	while (buffer[i])
@@ -52,9 +54,7 @@ char	*ft_line(char *buffer)
 		return (NULL);
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	line = malloc(sizeof(char) * BUFFER_SIZE +1);
-	if (!line)
-		return (NULL);
+	line = ft_calloc(BUFFER_SIZE +1, sizeof(char));
 	while (buffer[i] && buffer[i] != '\n')
 	{
 		line[i] = buffer[i];
@@ -71,9 +71,7 @@ char	*read_file(int fd, char *strg)
 	int		bytes;
 
 	bytes = 1;
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char)); 
-//	if (!buffer)
-//		return (ft_free(NULL, strg));
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	while (bytes > 0 && ft_strchr(buffer, '\n'))
 	{
 		bytes = read (fd, buffer, BUFFER_SIZE);
@@ -87,7 +85,7 @@ char	*read_file(int fd, char *strg)
 		else if (bytes < 0)
 			return (ft_free(buffer, strg));
 	}
-	free(buffer);
+//	free(buffer);
 	return (strg);
 }
 
