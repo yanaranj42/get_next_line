@@ -6,31 +6,42 @@
 /*   By: yanaranj <yanaranj@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 12:52:58 by yanaranj          #+#    #+#             */
-/*   Updated: 2023/12/13 18:18:14 by yanaranj         ###   ########.fr       */
+/*   Updated: 2023/12/19 13:32:14 by yanaranj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_next(char *buffer)
+static char	*ft_free(char **s1, char **s2)
+{
+	if (s1 && *s1)
+	{
+		free(s1);
+		*s1 = NULL;
+	}
+	if (s2 && *s2)
+	{
+		free(s2);
+		*s2 = NULL;
+	}
+	return (NULL);
+}
+
+static char	*ft_next(char *buffer)
 {
 	char	*line;
 	int		i;
 	int		j;
 
 	i = 0;
-	if (!buffer[i])
+	printf("%s", buffer);
+	if (!buffer)
 	{
-		free(buffer);
+		ft_free(&buffer, NULL);
+		return (NULL);
 	}
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	printf("%i\n", i);
-	if (!buffer[i])
-	{
-		free(buffer);
-		return (NULL);
-	}
 	line = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	i++;
 	j = 0;
@@ -40,11 +51,11 @@ char	*ft_next(char *buffer)
 		j++;
 		i++;
 	}
-	free(buffer);
+	ft_free(&buffer, NULL);
 	return (line);
 }
 
-char	*ft_line(char *buffer)
+static char	*ft_line(char *buffer)
 {
 	char	*line;
 	int		i;
@@ -65,45 +76,53 @@ char	*ft_line(char *buffer)
 	return (line);
 }
 
-char	*read_file(int fd, char *strg)
+static char	*read_file(int fd, char *strg)
 {
 	char	*buffer;
 	int		bytes;
 
-	bytes = 1;
+	if (!strg)
+		strg = ft_calloc(1, 1);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buffer)
+		return (ft_free(&strg, NULL));
+	bytes = 1;
 	while (bytes > 0 && ft_strchr(buffer, '\n'))
 	{
 		bytes = read (fd, buffer, BUFFER_SIZE);
+		if (bytes == -1)
+			return (NULL);
 		if (bytes > 0)
 		{
-			buffer[bytes] = '\0';
+			buffer[bytes] = 0;
 			strg = ft_strjoin(strg, buffer);
 			if (!strg)
 				return (NULL);
 		}
-		else if (bytes < 0)
-			return (ft_free(buffer, strg));
+		return (ft_free(&buffer, &strg));
 	}
-//	free(buffer);
 	return (strg);
 }
 
 char	*get_next_line(int fd)
 {
-	char	*strg;
-	char	*line;
+	static char	*strg = NULL;
+	char		*line;
 
 	if (fd < 0 && BUFFER_SIZE <= 0)
 		return (NULL);
-	line = read_file(fd, strg);
-	if (!line)
+	strg = read_file(fd, strg);
+	printf("%s\n", strg);
+	if (!strg)
 		return (NULL);
 	line = ft_line(strg);
 	strg = ft_next(strg);
+	if (!line || !strg)
+		return (NULL);
+	printf("line: %s\n", line);
 	return (line);
 }
-
+/*
 int main()
 {
 	int		fd;
@@ -115,9 +134,10 @@ int main()
 	{
 		line = get_next_line(fd);
 		printf("\n%i: %s", l, line);
-		free(line);
+	//	free(line);
 		l++;
 	}
 	close (fd);
 	return (0);
 }
+*/

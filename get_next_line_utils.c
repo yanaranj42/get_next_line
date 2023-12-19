@@ -6,7 +6,7 @@
 /*   By: yanaranj <yanaranj@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 13:01:28 by yanaranj          #+#    #+#             */
-/*   Updated: 2023/12/13 18:18:19 by yanaranj         ###   ########.fr       */
+/*   Updated: 2023/12/19 13:29:58 by yanaranj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,4 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	join[i] = '\0';
 	return (join);
-}
-
-/*			Libera la memoria de las cadenas
- * Verifica si la cadena hay mem asignada, y luego la libera
-*/
-char	*ft_free(char *s1, char *s2)
-{
-	if (s1)
-		free(s1);
-	if (s2)
-		free(s2);
-	return (NULL);
 }
