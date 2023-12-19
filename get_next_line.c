@@ -6,7 +6,7 @@
 /*   By: yanaranj <yanaranj@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 12:52:58 by yanaranj          #+#    #+#             */
-/*   Updated: 2023/12/19 13:32:14 by yanaranj         ###   ########.fr       */
+/*   Updated: 2023/12/19 18:41:44 by yanaranj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ static char	*ft_free(char **s1, char **s2)
 {
 	if (s1 && *s1)
 	{
-		free(s1);
+		free(*s1);
 		*s1 = NULL;
 	}
 	if (s2 && *s2)
 	{
-		free(s2);
+		free(*s2);
 		*s2 = NULL;
 	}
 	return (NULL);
@@ -34,7 +34,6 @@ static char	*ft_next(char *buffer)
 	int		j;
 
 	i = 0;
-	printf("%s", buffer);
 	if (!buffer)
 	{
 		ft_free(&buffer, NULL);
@@ -43,7 +42,7 @@ static char	*ft_next(char *buffer)
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
 	line = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	i++;
+	//i++;
 	j = 0;
 	while (buffer[i])
 	{
@@ -65,14 +64,15 @@ static char	*ft_line(char *buffer)
 		return (NULL);
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	line = ft_calloc(BUFFER_SIZE +1, sizeof(char));
+	line = ft_calloc(i + 1, sizeof(char));
+	i = 0;
 	while (buffer[i] && buffer[i] != '\n')
 	{
 		line[i] = buffer[i];
 		i++;
 	}
 	if (buffer[i] == '\n')
-		line[i++] = '\n';
+		line[i++] = '\n'; 
 	return (line);
 }
 
@@ -87,8 +87,10 @@ static char	*read_file(int fd, char *strg)
 	if (!buffer)
 		return (ft_free(&strg, NULL));
 	bytes = 1;
-	while (bytes > 0 && ft_strchr(buffer, '\n'))
+	while (bytes > 0)
 	{
+		if (ft_strchr(buffer, '\n'))
+			break;
 		bytes = read (fd, buffer, BUFFER_SIZE);
 		if (bytes == -1)
 			return (NULL);
@@ -99,8 +101,8 @@ static char	*read_file(int fd, char *strg)
 			if (!strg)
 				return (NULL);
 		}
-		return (ft_free(&buffer, &strg));
 	}
+	free(buffer);
 	return (strg);
 }
 
@@ -112,32 +114,31 @@ char	*get_next_line(int fd)
 	if (fd < 0 && BUFFER_SIZE <= 0)
 		return (NULL);
 	strg = read_file(fd, strg);
-	printf("%s\n", strg);
 	if (!strg)
 		return (NULL);
 	line = ft_line(strg);
 	strg = ft_next(strg);
 	if (!line || !strg)
 		return (NULL);
-	printf("line: %s\n", line);
 	return (line);
 }
-/*
+
 int main()
 {
 	int		fd;
 	int		l = 0;
 	char	*line;
 
-	fd = open("test.txt", O_RDONLY | O_CREAT);
+	printf("%i\n", BUFFER_SIZE);
+	fd = open("get_next_line.c", O_RDONLY | O_CREAT);
 	while (l < 5)
 	{
 		line = get_next_line(fd);
-		printf("\n%i: %s", l, line);
-	//	free(line);
+		//printf("\n%i: %s\n", l, line);
+		free(line);
 		l++;
 	}
 	close (fd);
 	return (0);
 }
-*/
+

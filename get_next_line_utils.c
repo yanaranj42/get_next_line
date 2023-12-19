@@ -6,7 +6,7 @@
 /*   By: yanaranj <yanaranj@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 13:01:28 by yanaranj          #+#    #+#             */
-/*   Updated: 2023/12/19 13:29:58 by yanaranj         ###   ########.fr       */
+/*   Updated: 2023/12/19 16:42:36 by yanaranj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	*ft_calloc(size_t count, size_t size)
 	void	*ptr;
 
 	total_size = count * size;
-	ptr = malloc (total_size);
+	ptr = malloc(total_size);
 	if (ptr != NULL)
 		ft_memset(ptr, 0, total_size);
 	return (ptr);
@@ -42,6 +42,8 @@ size_t	ft_strlen(const char *c)
 	int	i;
 
 	i = 0;
+	if (!c)
+		return (0);
 	while (c[i] != '\0')
 	{
 		i++;
