@@ -6,7 +6,7 @@
 /*   By: yanaranj <yanaranj@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 12:52:58 by yanaranj          #+#    #+#             */
-/*   Updated: 2023/12/19 18:41:44 by yanaranj         ###   ########.fr       */
+/*   Updated: 2023/12/20 19:19:47 by yanaranj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,19 @@ static char	*ft_next(char *buffer)
 	int		j;
 
 	i = 0;
-	if (!buffer)
-	{
-		ft_free(&buffer, NULL);
-		return (NULL);
-	}
-	while (buffer[i] && buffer[i] != '\n')
+	if (buffer[i] == '\0')
+		return (ft_free(&buffer, NULL));
+	while (buffer[i] != '\n' && buffer[i])
 		i++;
-	line = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	//i++;
+	if (buffer[i] == '\n')
+		i++;
+	line = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(char));
+	if (!line)
+		return (ft_free(&buffer, NULL));
 	j = 0;
 	while (buffer[i])
-	{
-		line[j] = buffer[i];
-		j++;
-		i++;
-	}
+		line[j++] = buffer[i++];
+	line[j] = '\0';
 	ft_free(&buffer, NULL);
 	return (line);
 }
@@ -64,6 +61,7 @@ static char	*ft_line(char *buffer)
 		return (NULL);
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
+	i++;
 	line = ft_calloc(i + 1, sizeof(char));
 	i = 0;
 	while (buffer[i] && buffer[i] != '\n')
@@ -71,8 +69,9 @@ static char	*ft_line(char *buffer)
 		line[i] = buffer[i];
 		i++;
 	}
-	if (buffer[i] == '\n')
-		line[i++] = '\n'; 
+	if (buffer[i] == '\n' && buffer[i])
+		line[i] = '\n';
+	line[++i] = '\0';	
 	return (line);
 }
 
@@ -93,10 +92,13 @@ static char	*read_file(int fd, char *strg)
 			break;
 		bytes = read (fd, buffer, BUFFER_SIZE);
 		if (bytes == -1)
+		{
+			ft_free(&buffer, &strg);
 			return (NULL);
+		}
 		if (bytes > 0)
 		{
-			buffer[bytes] = 0;
+			buffer[bytes] = '\0';
 			strg = ft_strjoin(strg, buffer);
 			if (!strg)
 				return (NULL);
@@ -111,34 +113,40 @@ char	*get_next_line(int fd)
 	static char	*strg = NULL;
 	char		*line;
 
-	if (fd < 0 && BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	strg = read_file(fd, strg);
 	if (!strg)
-		return (NULL);
+		return (ft_free(&strg, NULL));
 	line = ft_line(strg);
+	if (!line)
+		return (ft_free(&strg, NULL));
 	strg = ft_next(strg);
-	if (!line || !strg)
+	if (!strg)
 		return (NULL);
 	return (line);
 }
-
+/*
 int main()
 {
 	int		fd;
-	int		l = 0;
 	char	*line;
 
-	printf("%i\n", BUFFER_SIZE);
-	fd = open("get_next_line.c", O_RDONLY | O_CREAT);
-	while (l < 5)
+//	printf("%i\n", BUFFER_SIZE);
+	fd = open("lorem.txt", O_RDONLY);
+	printf("%i\n", fd);
+	line = NULL;
+	while (line)
 	{
 		line = get_next_line(fd);
-		//printf("\n%i: %s\n", l, line);
-		free(line);
-		l++;
+		if (line)
+		{
+			printf("%s",line);
+			free(line);
+		}
+		//ft_free(&line, NULL);
 	}
 	close (fd);
 	return (0);
 }
-
+*/
