@@ -6,7 +6,7 @@
 /*   By: yanaranj <yanaranj@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 12:52:58 by yanaranj          #+#    #+#             */
-/*   Updated: 2023/12/20 19:19:47 by yanaranj         ###   ########.fr       */
+/*   Updated: 2023/12/21 13:30:17 by yanaranj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static char	*ft_line(char *buffer)
 		i++;
 	i++;
 	line = ft_calloc(i + 1, sizeof(char));
+	if (!line) //add this protection
+		return (ft_free(&buffer, NULL));
 	i = 0;
 	while (buffer[i] && buffer[i] != '\n')
 	{
@@ -81,7 +83,10 @@ static char	*read_file(int fd, char *strg)
 	int		bytes;
 
 	if (!strg)
-		strg = ft_calloc(1, 1);
+	{
+		//strg = ft_calloc(1, 1);
+		ft_free(&strg, NULL);
+	}
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer)
 		return (ft_free(&strg, NULL));
@@ -89,23 +94,19 @@ static char	*read_file(int fd, char *strg)
 	while (bytes > 0)
 	{
 		if (ft_strchr(buffer, '\n'))
-			break;
+			break ;
 		bytes = read (fd, buffer, BUFFER_SIZE);
 		if (bytes == -1)
-		{
-			ft_free(&buffer, &strg);
-			return (NULL);
-		}
+			return (ft_free(&buffer, &strg), NULL);
 		if (bytes > 0)
 		{
-			buffer[bytes] = '\0';
+			buffer[bytes] = 0;
 			strg = ft_strjoin(strg, buffer);
 			if (!strg)
 				return (NULL);
 		}
 	}
-	free(buffer);
-	return (strg);
+	return (ft_free(&buffer, NULL), strg);
 }
 
 char	*get_next_line(int fd)
@@ -123,7 +124,7 @@ char	*get_next_line(int fd)
 		return (ft_free(&strg, NULL));
 	strg = ft_next(strg);
 	if (!strg)
-		return (NULL);
+		return (ft_free(&strg, NULL));
 	return (line);
 }
 /*
@@ -132,21 +133,18 @@ int main()
 	int		fd;
 	char	*line;
 
-//	printf("%i\n", BUFFER_SIZE);
-	fd = open("lorem.txt", O_RDONLY);
-	printf("%i\n", fd);
-	line = NULL;
+	fd = open("lorem.txt", O_RDONLY | O_CREAT);
+//	line = NULL;
 	while (line)
 	{
 		line = get_next_line(fd);
 		if (line)
 		{
 			printf("%s",line);
-			free(line);
+			ft_free(&line, NULL);
 		}
 		//ft_free(&line, NULL);
 	}
 	close (fd);
 	return (0);
-}
-*/
+}*/

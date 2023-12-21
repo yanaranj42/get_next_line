@@ -6,7 +6,7 @@
 /*   By: yanaranj <yanaranj@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 13:01:28 by yanaranj          #+#    #+#             */
-/*   Updated: 2023/12/20 19:19:49 by yanaranj         ###   ########.fr       */
+/*   Updated: 2023/12/21 13:30:15 by yanaranj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	*ft_calloc(size_t count, size_t size)
 
 	total_size = count * size;
 	ptr = malloc(total_size);
+	if (!ptr)
+		return (NULL);
 	if (ptr != NULL)
 		ft_memset(ptr, 0, total_size);
 	return (ptr);
@@ -75,7 +77,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	size1 = ft_strlen(s1);
 	size2 = ft_strlen(s2);
 	newsize = size1 + size2;
-	join = (char *)malloc(sizeof(char) * (newsize + 1));
+	join = ft_calloc(sizeof(char), newsize + 1);
+//	join = (char *)malloc(sizeof(char) * (newsize + 1));
 	if (!join)
 		return (NULL);
 	i = 0;
