@@ -6,12 +6,12 @@
 /*   By: yanaranj <yanaranj@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 13:01:28 by yanaranj          #+#    #+#             */
-/*   Updated: 2023/12/21 13:30:15 by yanaranj         ###   ########.fr       */
+/*   Updated: 2023/12/21 17:49:43 by yanaranj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
+/*
 void	*ft_memset(void *b, int c, size_t len)
 {
 	size_t	i;
@@ -38,7 +38,7 @@ void	*ft_calloc(size_t count, size_t size)
 		ft_memset(ptr, 0, total_size);
 	return (ptr);
 }
-
+*/
 size_t	ft_strlen(const char *c)
 {
 	int	i;
@@ -66,7 +66,7 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*join;
 	size_t	size1;
@@ -77,10 +77,11 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	size1 = ft_strlen(s1);
 	size2 = ft_strlen(s2);
 	newsize = size1 + size2;
-	join = ft_calloc(sizeof(char), newsize + 1);
-//	join = (char *)malloc(sizeof(char) * (newsize + 1));
-	if (!join)
+	if (!s1 && !s2)
 		return (NULL);
+	join = malloc(sizeof(char) * (newsize + 1));
+	if (!join)
+		return (free(s1), NULL);
 	i = 0;
 	while (i < newsize)
 	{
@@ -91,5 +92,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		i++;
 	}
 	join[i] = '\0';
+	free(s1);
 	return (join);
 }

@@ -6,7 +6,7 @@
 /*   By: yanaranj <yanaranj@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 12:52:58 by yanaranj          #+#    #+#             */
-/*   Updated: 2023/12/21 13:30:17 by yanaranj         ###   ########.fr       */
+/*   Updated: 2023/12/21 17:49:49 by yanaranj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*ft_next(char *buffer)
 		i++;
 	if (buffer[i] == '\n')
 		i++;
-	line = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(char));
+	line = malloc((ft_strlen(buffer) - i + 1) * sizeof(char));
 	if (!line)
 		return (ft_free(&buffer, NULL));
 	j = 0;
@@ -61,8 +61,7 @@ static char	*ft_line(char *buffer)
 		return (NULL);
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	i++;
-	line = ft_calloc(i + 1, sizeof(char));
+	line = malloc(sizeof(char) * (i + 2));
 	if (!line) //add this protection
 		return (ft_free(&buffer, NULL));
 	i = 0;
@@ -76,7 +75,7 @@ static char	*ft_line(char *buffer)
 	line[++i] = '\0';	
 	return (line);
 }
-
+//FALTA VERIFICAR CONDICION SALTO DE LINEA PARA QUE LEA EL RESTO DEL FD:w
 static char	*read_file(int fd, char *strg)
 {
 	char	*buffer;
@@ -84,26 +83,27 @@ static char	*read_file(int fd, char *strg)
 
 	if (!strg)
 	{
-		//strg = ft_calloc(1, 1);
-		ft_free(&strg, NULL);
+		strg = malloc(sizeof(char) * 1);
+		strg[0] = '\0';
 	}
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	buffer = malloc (BUFFER_SIZE + 2);
 	if (!buffer)
 		return (ft_free(&strg, NULL));
+	buffer[0] = '\0';
 	bytes = 1;
 	while (bytes > 0)
 	{
-		if (ft_strchr(buffer, '\n'))
-			break ;
 		bytes = read (fd, buffer, BUFFER_SIZE);
-		if (bytes == -1)
-			return (ft_free(&buffer, &strg), NULL);
-		if (bytes > 0)
+		if (bytes < 0)
+			return (ft_free(&buffer, &strg));
+		else if (bytes > 0)
 		{
-			buffer[bytes] = 0;
+			buffer[bytes] = '\0';
 			strg = ft_strjoin(strg, buffer);
 			if (!strg)
 				return (NULL);
+		if (ft_strchr(buffer, '\n'))
+			break ;
 		}
 	}
 	return (ft_free(&buffer, NULL), strg);
@@ -118,13 +118,14 @@ char	*get_next_line(int fd)
 		return (NULL);
 	strg = read_file(fd, strg);
 	if (!strg)
-		return (ft_free(&strg, NULL));
+		return (NULL);
+		//return (ft_free(&strg, NULL));
 	line = ft_line(strg);
 	if (!line)
 		return (ft_free(&strg, NULL));
 	strg = ft_next(strg);
-	if (!strg)
-		return (ft_free(&strg, NULL));
+//	if (!strg)
+//		return (ft_free(&strg, NULL));
 	return (line);
 }
 /*
@@ -147,4 +148,5 @@ int main()
 	}
 	close (fd);
 	return (0);
-}*/
+}
+*/
