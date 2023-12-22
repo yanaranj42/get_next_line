@@ -6,39 +6,27 @@
 /*   By: yanaranj <yanaranj@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 13:01:28 by yanaranj          #+#    #+#             */
-/*   Updated: 2023/12/21 17:49:43 by yanaranj         ###   ########.fr       */
+/*   Updated: 2023/12/22 14:08:23 by yanaranj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-/*
-void	*ft_memset(void *b, int c, size_t len)
-{
-	size_t	i;
 
-	i = 0;
-	while (i < len)
+char	*ft_free(char **s1, char **s2)
+{
+	if (s1 && *s1)
 	{
-		((unsigned char *)b)[i] = (unsigned char)c;
-		i++;
+		free(*s1);
+		*s1 = NULL;
 	}
-	return (b);
+	if (s2 && *s2)
+	{
+		free(*s2);
+		*s2 = NULL;
+	}
+	return (NULL);
 }
 
-void	*ft_calloc(size_t count, size_t size)
-{
-	size_t	total_size;
-	void	*ptr;
-
-	total_size = count * size;
-	ptr = malloc(total_size);
-	if (!ptr)
-		return (NULL);
-	if (ptr != NULL)
-		ft_memset(ptr, 0, total_size);
-	return (ptr);
-}
-*/
 size_t	ft_strlen(const char *c)
 {
 	int	i;
