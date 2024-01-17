@@ -6,7 +6,7 @@
 /*   By: yanaranj <yanaranj@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 13:01:28 by yanaranj          #+#    #+#             */
-/*   Updated: 2023/12/22 14:08:23 by yanaranj         ###   ########.fr       */
+/*   Updated: 2024/01/17 18:53:40 by yanaranj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,13 @@ char	*ft_strjoin(char *s1, char *s2)
 	char	*join;
 	size_t	size1;
 	size_t	size2;
-	size_t	newsize;
 	size_t	i;
 
 	size1 = ft_strlen(s1);
 	size2 = ft_strlen(s2);
-	newsize = size1 + size2;
 	if (!s1 && !s2)
 		return (NULL);
-	join = malloc(sizeof(char) * (newsize + 1));
+	join = malloc(sizeof(char) * (size1 + size2 + 1));
 	if (!join)
 		return (free(s1), NULL);
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: yanaranj <yanaranj@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 12:52:58 by yanaranj          #+#    #+#             */
-/*   Updated: 2023/12/22 14:08:26 by yanaranj         ###   ########.fr       */
+/*   Updated: 2024/01/17 18:56:05 by yanaranj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,8 @@ static char	*ft_line(char *strg)
 		i++;
 	}
 	if (strg[i] == '\n' && strg[i])
-	{
-		line[i] = '\n';
-		i++;
-	}
-	line[i] = '\0';	
+		line[i++] = '\n';
+	line[i] = '\0';
 	return (line);
 }
 
@@ -73,11 +70,6 @@ static char	*read_file(int fd, char *strg)
 	char	*buffer;
 	int		bytes;
 
-/*	if (!strg)
-	{
-		strg = malloc(sizeof(char) * 1);
-		strg[0] = '\0';
-	}*/
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (ft_free(&strg, NULL));
@@ -92,8 +84,6 @@ static char	*read_file(int fd, char *strg)
 		{
 			buffer[bytes] = '\0';
 			strg = ft_strjoin(strg, buffer);
-		/*	if (!strg)
-				return (NULL);*/
 			if (ft_strchr(buffer, '\n'))
 				break ;
 		}
@@ -109,16 +99,14 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	strg = read_file(fd, strg);
-	if (!strg)//
+	if (!strg)
 		return (NULL);
 	line = ft_line(strg);
 	if (!line)
 		return (ft_free(&strg, NULL));
-//	ft_free(&strg, NULL);
 	strg = ft_next(strg);
 	return (line);
 }
-
 /*
 int main()
 {
@@ -126,9 +114,9 @@ int main()
 	char	*line;
 
 	fd = open("lorem.txt", O_RDONLY | O_CREAT);
-	while (line)
+	while ((line = get_next_line(fd)) != NULL)
 	{
-		line = get_next_line(fd);
+	//	line = get_next_line(fd);
 		if (line)
 		{
 			printf("%s",line);

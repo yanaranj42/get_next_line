@@ -6,7 +6,7 @@
 /*   By: yanaranj <yanaranj@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 13:01:41 by yanaranj          #+#    #+#             */
-/*   Updated: 2023/12/22 12:13:13 by yanaranj         ###   ########.fr       */
+/*   Updated: 2024/01/17 18:56:44 by yanaranj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
-
 
 /* Funciones principales*/
 char	*get_next_line(int fd);
