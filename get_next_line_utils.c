@@ -6,7 +6,7 @@
 /*   By: yanaranj <yanaranj@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 13:01:28 by yanaranj          #+#    #+#             */
-/*   Updated: 2024/01/17 18:53:40 by yanaranj         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:03:51 by yanaranj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!join)
 		return (free(s1), NULL);
 	i = 0;
-	while (i < newsize)
+	while (i < (size1 + size2))
 	{
 		if (i < size1)
 			join[i] = s1[i];
