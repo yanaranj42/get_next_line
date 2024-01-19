@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yanaranj <yanaranj@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/07 13:01:28 by yanaranj          #+#    #+#             */
-/*   Updated: 2024/01/19 12:34:41 by yanaranj         ###   ########.fr       */
+/*   Created: 2024/01/19 12:54:28 by yanaranj          #+#    #+#             */
+/*   Updated: 2024/01/19 12:58:24 by yanaranj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_free(char **s1, char **s2)
 {
