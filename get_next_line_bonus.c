@@ -6,7 +6,7 @@
 /*   By: yanaranj <yanaranj@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 12:57:49 by yanaranj          #+#    #+#             */
-/*   Updated: 2024/01/19 14:20:48 by yanaranj         ###   ########.fr       */
+/*   Updated: 2024/02/08 12:54:35 by yanaranj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,23 +107,3 @@ char	*get_next_line(int fd)
 	strg[fd] = ft_next(strg[fd]);
 	return (line);
 }
-/*
-int main()
-{
-	int		fd;
-	char	*line;
-
-	fd = open("lorem.txt", O_RDONLY | O_CREAT);
-	while ((line = get_next_line(fd)) != NULL)
-	{
-	//	line = get_next_line(fd);
-		if (line)
-		{
-			printf("%s",line);
-			ft_free(&line, NULL);
-		}
-	}
-	close (fd);
-	return (0);
-}
-*/
